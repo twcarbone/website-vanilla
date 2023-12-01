@@ -20,8 +20,22 @@ export class Login {
       });
 
       if (error == 0) {
-        this.form.submit();
-        alert("Welcome!");
+        fetch("/api/login", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            email: document.getElementById("email").value,
+            password: document.getElementById("password").value,
+          }),
+        })
+          .then((response) => {
+            return response.json();
+          })
+          .then((data) => {
+            console.log(data);
+          });
       }
     });
   }
