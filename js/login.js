@@ -1,3 +1,7 @@
+import FetchService from "./FetchService.js";
+
+const fetchService = new FetchService();
+
 export class Login {
   constructor(form, fields) {
     this.form = form;
@@ -20,27 +24,20 @@ export class Login {
       });
 
       if (error == 0) {
-        fetch("/api/login", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            email: document.getElementById("email").value,
-            password: document.getElementById("password").value,
-          }),
-        })
-          .then((response) => {
-            return response.json();
-          })
-          .then((data) => {
-            console.log(data);
-          });
+        self.submitForm();
       }
     });
   }
 
   validateFields() {
     return true;
+  }
+
+  async submitForm() {
+    const response = await fetchService.postJSON("/api/login", {
+      email: document.getElementById("email").value,
+      password: document.getElementById("password").value,
+    });
+    console.log(response);
   }
 }
